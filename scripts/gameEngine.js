@@ -30,7 +30,6 @@ var Game = function (gameName, canvasId) {
    this.STARTING_FPS = 60;
 
 	this.stop = false;
-	this.timerId = 0;
    this.paused = false;
    this.startedPauseAt = 0;
    this.PAUSE_TIMEOUT = 100;
@@ -101,13 +100,13 @@ Game.prototype = {
    updateFrameRate: function (time) {
       if (this.lastTime === 0) this.fps = this.STARTING_FPS;
       else if (this.lastTime === time) this.fps = 1000;
-      else                     this.fps = 1000 / Math.abs(time - this.lastTime);
+      else                     this.fps = 1000 / (time - this.lastTime);
    },
    pixelsPerFrame: function (time, velocity) {
 	   if(this.fps==Infinity) {
 		this.updateFrameRate(time);
 	   }
-	   
+	   //console.log(time+","+this.lastTime+","+this.fps);
 	   return velocity/parseInt(this.fps);
       //return velocity / (isNaN(this.fps)?100:this.fps);  // pixels / frame
    },
@@ -116,39 +115,36 @@ Game.prototype = {
       var self = this;               // The this variable is the game
       this.startTime = getTimeNow(); // Record game's startTime (used for pausing)
 		this.stop = false;
-
-      this.timerId = window.requestNextAnimationFrame(
+		
+      window.requestNextAnimationFrame(
          function (time) {
             // The this variable in this function is the window, not the game,
             // which is why we do not simply do this: animate.call(time).
-            self.animate.call(self, time); // self is the game	
+            
+            self.animate.call(self, time); // self is the game
          });
-   },
-   stopAnimate: function() {
-	   this.stop = true;	
-		this.clearScreen(); 
-	  this.paintUnderSprites();	   
-	   this.gameTime = this.startTime = this.lastTime = this.time = 0;
-	   window.cancelNextRequestAnimationFrame(this.timerId);	   
    },
    animate: function (time) {
       var self = this; // window.requestNextAnimationFrame() called by DOMWindow
-	  if(this.stop) {
-		  return;
+	if(this.stop) {
+		return;
 	  }
-      //console.log(time+","+this.lastTime+","+this.fps);
+      
       if (this.paused) {
          // In PAUSE_TIMEOUT (100) ms, call this method again to see if the game
-         // is still paused. There's no need to check more frequently.         
+         // is still paused. There's no need to check more frequently.
+         
          setTimeout( function () {
             window.requestNextAnimationFrame(
                function (time) {
                   self.animate.call(self, time);
                });
          }, this.PAUSE_TIMEOUT);
-      } else {                       // Game is not paused
+      }
+      else {                       // Game is not paused
          this.tick(time);          // Update fps, game time
          this.clearScreen();       // Clear the screen in preparation for next frame
+
 		 
          this.startAnimate(time);  // Override as you wish
          this.paintUnderSprites(); // Override as you wish
@@ -162,15 +158,13 @@ Game.prototype = {
          this.lastTime = time;
 
          // Call this method again when it's time for the next animation frame
-	 
-        var timerId = window.requestNextAnimationFrame(
+
+         window.requestNextAnimationFrame(
             function (time) {
                self.animate.call(self, time); // The this variable refers to the window
-			   window.cancelNextRequestAnimationFrame(timerId);
             });
       }
    },
-
    clearScreen: function () {
       this.context.clearRect(0, 0,
          this.context.canvas.width, this.context.canvas.height);

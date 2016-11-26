@@ -638,6 +638,7 @@ ballSprite.velocityY = 78;
 ballShape.x=318;
 ballShape.y=481;
 shape=rightFlipperShape;//middlecenter//rightFlipperShape//middlebottom1
+
 mtv = ballShape.collidesWith(shape);
 console.log(collisionDetected(mtv));
 bounce(mtv, shape, 0.96);
@@ -783,9 +784,6 @@ function over(left) {
 		game.paused = false;
 		ballOutOfPlay = false;
 		prepareForLaunch();
-		
-		game.stopAnimate();
-		ballSprite.paint(game.context);
 	}, 200);      
 };
 game.startAnimate = function (time) {
@@ -837,7 +835,6 @@ game.paintUnderSprites = function () {
   updateRightFlipper();
   updatequalitycontrol();
   game.context.drawImage(game.getImage(actorImg), 373, 347,34,actorHeight>0?actorHeight:0);
- 
   if(devlop && ballrunning)
 	drawLine(ballSprite.x, ballSprite.y, lastBallPosition.x, lastBallPosition.y);
   paintLeftFlipper();
@@ -1080,9 +1077,8 @@ var interval = setInterval(function (e) {
     loading = false;
     //game.playSound('jingle');
 	game.paintBg();
-    //game.start();
-	ballSprite.paint(game.context);
-	game.paintUnderSprites();
+    game.start();
+	
 	test();
   }
 }, 16);
@@ -1191,7 +1187,7 @@ function saveLocus(){
 	if(locus.length > 0) {
 		drawLocus(locus);
 	}
-	//alert(locus.length);	
+	//alert(locus.length);
 }
 game.contextbg.canvas.onmousemove = function(e) {
 	var location = windowToCanvas(e);
