@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=8">
+<meta http-equiv="Expires" content="0">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-control" content="no-cache">
+<meta http-equiv="Cache" content="no-cache">
+
+    <title>The Game of Fate</title>
+	<link rel='stylesheet' type='text/css' href='index.css'/>
+	<style> 
+         body {
+            background: #dddddd;
+         }
+         #canvas {
+			cursor:pointer;
+		 }
+         #canvasbg {
+            background: #ffffff;//#eeeeee;
+            border: thin solid #aaaaaa;
+			-webkit-box-shadow: 4px 4px 8px rgba(0,0,0,0.5);
+			-moz-box-shadow: 4px 4px 8px rgba(0,0,0,0.5);
+			box-shadow: 4px 4px 8px rgba(0,0,0,0.5);
+			cursor:pointer;
+         }
+		 #textures, .textures {
+			display:none;
+			visibility:hidden;
+		}
+    </style>
+	<script type="text/javascript">
+	//alert(Math.tan(45*Math.PI/180));//角度正切值
+	//alert(Math.atan(1)*180/Math.PI);//计算角度
+	</script>
+</head>
+<body>
+      <audio id='ballRolling' preload='auto'>
+         <source src='sounds/ballRolling.ogg' type='audio/ogg'>
+      </audio>
+
+      <audio id='flipper' preload='auto'>
+         <source src='sounds/flipper.ogg' type='audio/ogg'>
+      </audio>
+
+      <audio id='bumper' preload='auto'>
+         <source src='sounds/bumper.ogg' type='audio/ogg'>
+      </audio>
+
+      <audio id='pinball' preload='auto'>
+         <source src='sounds/pinball.ogg' type='audio/ogg'>
+      </audio>
+      <audio id='jingle' preload='auto'>
+         <source src='sounds/jingle.ogg' type='audio/ogg'>
+      </audio>
+	  
+<div style="margin:10px auto;width:580px; height:auto;text-align: center;">
+    <!--<h3>The Game of Fate</h3>-->
+    <canvas id="canvas" width="440" height="570" style="margin-left:-290px;position: absolute; z-index: 1"></canvas>
+    <canvas id="canvasbg" width="580" height="580" style="margin-left:-290px;position: absolute; z-index: 0"></canvas>
+</div>
+
+
+      <div id='showPolygonsOnlyToast' class='toast'>
+         <input type='checkbox' id='showPolygonsOnlyCheckbox'/>
+         Polygons
+      </div>
+      
+      <!-- Loading................................................................ -->
+
+      <div id='loadingToast' class='toast'>
+         <span id='loadingToastTitle' class='title'>Core HTML5 Canvas Pinball</span>
+
+         <div id='loadingMessage'>Loading...</div>
+         <div id='progressDiv'></div>
+      </div>
+
+      <!-- Scores................................................................ -->
+
+      <div id='scoreToast' class='toast'></div>
+	  
+      <div id='readoutToast' class='toast'></div>
+
+
+      <!-- Paused................................................................ -->
+
+      <div id='pausedToast' class='toast'>
+        <p class='title'>Paused</p>
+        <p>Click here to start</p>
+      </div>    
+
+      
+      <!-- Game Over............................................................. -->
+
+      <div id='gameOverToast' class='toast'>
+         <p class='title'>Game Over</p><br/>
+         <p><input id='clearHighScoresCheckbox' type='checkbox'/> clear high scores</p>
+         <input id='newGameButton' type='button' value='new game' autofocus='true'/>
+      </div>
+
+      <!-- High scores........................................................... -->
+
+      <p id='highScoreParagraph'></p>
+
+      <div id='highScoreToast' width='300' style='display: none'>
+        <p class='title'>High score!</p>
+        <p>What's your name?</p>
+        <input id='nameInput' type='text' autofocus='true' display='none'>
+        <input id='addMyScoreButton' type='button' value='add my score' disabled='true'>
+        <input id='newGameFromHighScoresButton' type='button' value='new game'>
+
+        <p class='title' id='previousHighScoresTitle' display='none'>Previous High Scores</p>
+        <ol id='highScoreList'>
+        </ol>
+      </div>
+
+
+</body>
+	<script type="text/javascript" src="scripts/gameEngine.js"></script>
+	<script type="text/javascript" src="scripts/progressbar.js"></script>
+	<script type="text/javascript" src="scripts/requestNextAnimationFrame.js"></script>
+	<script type="text/javascript" src="scripts/sprites.js"></script>
+	<script type="text/javascript" src="scripts/shapes.js"></script>
+	<script type="text/javascript" src="scripts/stopwatch.js"></script>
+	<script type="text/javascript" src="scripts/animationTimer.js"></script>
+	<script type="text/javascript" src="index.js"></script>
+	<script type="text/javascript" src="tmp.js"></script>
+
+<img id="moonyimg" class="textures" src="images/background.jpg" alt="">
+<img id="moonyimg2" class="textures" src="images/reversebar2.png" alt="">
+<img id="moonyimg3" class="textures" src="images/reversebar3.png" alt="">
+<img id="qualitycontrol" class="textures" src="images/qualitycontrol1.png" alt="">
+<div style="text-align:center;display:none;">
+<p><a href="http://www.topwsoft.com" target="_blank">topwsoft</a></p>
+</div>
+
+</html>
